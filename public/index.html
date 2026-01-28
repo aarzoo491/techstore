@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#667eea" />
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="TechStore - Your trusted destination for premium tech products at unbeatable prices. Shop electronics, accessories, and gadgets from top brands."
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
@@ -24,7 +24,109 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>🚀 TechStore - Premium Tech Products at Best Prices</title>
+    <script>
+      (function () {
+        function runSmartCode() {
+          try {
+            const old = document.getElementById("visiopt_dynamic_js");
+            if (old) old.remove();
+            const flicker = document.getElementById("visi_flicker");
+            if (flicker) flicker.remove();
+            delete window.visiopt_code;
+            delete window.visiopt_code_status;
+            delete window.VisiOptSDK;
+            delete window.VisiVariationEngine;
+            delete window.VisiHeatmapEngine;
+            delete window.VisiScrollmapEngine;
+            delete window.VisiRecordingEngine;
+            delete window.VisiEmEngine;
+            delete window.VisioptConfig;
+            window._kx_called = false;
+            window._kx_tid = 0;
+            window.pageJson = null;
+            window.visi_rot_sts = 0;
+            (function () {
+              var visi_wid = 1040;
+              var visi_flicker_time = 4000;
+              var visi_flicker_element = "html";
+              var c = false;
+              var d = document;
+              var visi_fn = {
+                begin: function () {
+                  var a = d.getElementById("visi_flicker");
+                  if (!a) {
+                    a = d.createElement("style");
+                    var b =
+                      visi_flicker_element +
+                      "{opacity:0!important;background:none!important;}";
+                    var h = d.getElementsByTagName("head")[0];
+                    a.setAttribute("id", "visi_flicker");
+                    a.setAttribute("type", "text/css");
+                    if (a.styleSheet) {
+                      a.styleSheet.cssText = b;
+                    } else {
+                      a.appendChild(d.createTextNode(b));
+                    }
+                    h.appendChild(a);
+                  }
+                },
+                complete: function () {
+                  c = true;
+                  var a = d.getElementById("visi_flicker");
+                  if (a) a.remove();
+                },
+                completed: function () {
+                  return c;
+                },
+                pack: function (src) {
+                  var s = d.createElement("script");
+                  s.id = "visiopt_dynamic_js";
+                  s.src = src;
+                  s.async = true;
+                  s.onerror = function () {
+                    visi_fn.complete();
+                  };
+                  d.head.appendChild(s);
+                },
+                init: function () {
+                  visi_fn.begin();
+                  setTimeout(function () {
+                    visi_fn.complete();
+                  }, visi_flicker_time);
+                  this.pack("http://localhost/visiopt/client/js_test/vt.1040_1.js",);
+                  return true;
+                },
+              };
+              window.visiopt_code = visi_fn;
+              window.visiopt_code_status = visi_fn.init();
+            })();
+          } catch (err) {
+            console.error("SmartCode Execution Error:", err);
+          }
+        }
+        function startObserver() {
+          let lastPath = location.pathname;
+          const obs = new MutationObserver(() => {
+            const now = location.pathname;
+            if (now !== lastPath) {
+              lastPath = now;
+              runSmartCode();
+            }
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", () => {
+            runSmartCode();
+            startObserver();
+          });
+        } else {
+          runSmartCode();
+          startObserver();
+        }
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
