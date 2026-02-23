@@ -249,9 +249,14 @@ function Home() {
         <div className="hero-content">
           <h1>Welcome to TechStore</h1>
           <p>Discover amazing tech products at unbeatable prices</p>
-          <Link to="/checkout" className="cta-button">
-            Shop Now
-          </Link>
+          <a 
+            href="https://visioptdev.com/client/postback.php?pb_id=50&site_id=1040&c_page=836&visiuid=[#visiuid]&amt=50"
+            className="cta-button"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Postback
+          </a>
         </div>
       </section>
 
