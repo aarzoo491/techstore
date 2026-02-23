@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import '../styles/Checkout.css';
 
 function Checkout() {
@@ -7,7 +8,11 @@ function Checkout() {
     amount: ''
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState(''); // success / error
+
+  const [submittedData, setSubmittedData] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,19 +22,46 @@ function Checkout() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.email && formData.amount) {
-      setSubmitted(true);
-      setTimeout(() => {
-        setSubmitted(false);
-        setFormData({
-          email: '',
-          amount: ''
-        });
-      }, 3000);
-    } else {
-      alert('Please fill in all fields');
+
+    if (!formData.email || !formData.amount) {
+      setMessage("Please fill in all fields");
+      setMessageType("error");
+      return;
+    }
+
+    setLoading(true);
+    setMessage('');
+    setMessageType('');
+
+    try {
+      const response = await axios.post(
+        "/.netlify/functions/pay-now",
+        {
+          email: formData.email,
+          amount: formData.amount
+        }
+      );
+
+      setMessage(response.data?.message || "Payment submitted successfully!");
+      setMessageType("success");
+
+      // Save data to show in success section
+      setSubmittedData({
+        email: formData.email,
+        amount: formData.amount
+      });
+
+      // Reset form
+      setFormData({ email: "", amount: "" });
+
+    } catch (error) {
+      setMessage(error.response?.data?.message || "Something went wrong. Please try again.");
+      setMessageType("error");
+
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -42,17 +74,20 @@ function Checkout() {
 
       <section className="checkout-container">
         <div className="checkout-form-wrapper">
-          {submitted ? (
+
+          {/* SUCCESS SCREEN */}
+          {messageType === "success" && submittedData ? (
             <div className="success-message">
               <div className="success-icon">✓</div>
               <h2>Payment Successful!</h2>
               <p>Thank you for your purchase</p>
               <p className="success-details">
-                A confirmation email has been sent to <strong>{formData.email}</strong>
+                A confirmation email has been sent to <strong>{submittedData.email}</strong>
               </p>
-              <p className="amount-paid">Amount Paid: <strong>${formData.amount}</strong></p>
+              <p className="amount-paid">Amount Paid: <strong>${submittedData.amount}</strong></p>
             </div>
           ) : (
+            /* FORM */
             <form className="checkout-form" onSubmit={handleSubmit}>
               <h2>Payment Details</h2>
 
@@ -86,9 +121,15 @@ function Checkout() {
                 </div>
               </div>
 
-              <button type="submit" className="submit-button">
-                Complete Purchase
+              <button type="submit" className="submit-button" disabled={loading}>
+                {loading ? "Processing..." : "Complete Purchase"}
               </button>
+
+              {message && (
+                <p className={`form-msg ${messageType}`}>
+                  {message}
+                </p>
+              )}
 
               <p className="security-note">
                 🔒 Your payment information is secure and encrypted
@@ -97,7 +138,7 @@ function Checkout() {
           )}
         </div>
 
-        {/* Security Features */}
+        {/* SECURITY FEATURES */}
         <div className="security-features">
           <h3>Why Shop With Us?</h3>
           <div className="feature-item">
